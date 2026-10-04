@@ -22,15 +22,15 @@ async function open(page: Page) {
   await expect(page.locator('.log-open')).toHaveCount(2);
 }
 
-test('both clients send signed ephemeral heartbeats every five seconds and log replies', async ({ page }) => {
+test('both clients send signed ephemeral heartbeats every ten seconds and log replies', async ({ page }) => {
   const sent = await mockRelay(page);
   await open(page);
-  await page.clock.runFor(4_900);
+  await page.clock.runFor(9_900);
   expect(sent).toHaveLength(0);
   await page.clock.runFor(100);
   await expect.poll(() => sent.length).toBe(2);
   await expect(page.locator('.log-receive')).toHaveCount(2);
-  await page.clock.runFor(5_000);
+  await page.clock.runFor(10_000);
   await expect.poll(() => sent.length).toBe(4);
   expect(sent.filter((event) => event.client === 'A')).toHaveLength(2);
   expect(sent.filter((event) => event.client === 'B')).toHaveLength(2);
@@ -50,7 +50,7 @@ test('only A probes on browser lifecycle recovery; both drop and reconnect', asy
   await expect(page.locator('.log-drop')).toHaveCount(2);
   await page.clock.runFor(1_100);
   await expect(page.locator('.log-open')).toHaveCount(4);
-  await page.clock.runFor(5_000);
+  await page.clock.runFor(10_000);
   await expect.poll(() => sent.filter((event) => event.purpose === 'heartbeat').length).toBe(2);
 });
 
@@ -65,7 +65,7 @@ test('missing lifecycle probe reply drops A, while B remains connected until hea
   await expect(page.locator('.log-drop')).toHaveAttribute('data-client', 'A');
   await expect(page.locator('.log-drop')).toContainText('browser-lifecycle/probe-timeout');
   await expect(page.locator('#status-b')).toHaveText('接続成功');
-  await page.clock.runFor(5_000);
+  await page.clock.runFor(10_000);
   await expect(page.locator('.log-drop[data-client="B"]')).toHaveCount(1);
   await expect(page.locator('.log-drop[data-client="B"]')).toContainText('heartbeat/response-timeout');
 });

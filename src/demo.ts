@@ -18,7 +18,7 @@ export interface LogEntry {
   text: string;
 }
 
-const INTERVAL = 5_000;
+const INTERVAL = 10_000;
 const TIMEOUT = 5_000;
 
 export function createDemo(
@@ -58,7 +58,7 @@ export function createDemo(
       }
     }
 
-    // Fixed cadence: response latency does not extend the five-second interval.
+    // Fixed cadence: response latency does not extend the ten-second interval.
     const heartbeat: UniplsDropDetector<Input, Output> = {
       name: 'heartbeat',
       setup(ctx) {
