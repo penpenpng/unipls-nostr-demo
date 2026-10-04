@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>unipls · browser lifecycle demo</title>
+  </head>
+  <body>
+    <main>
+      <header><div><h1>unipls lifecycle demo</h1><p>wss://yabu.me · heartbeat 5秒 / timeout 5秒</p></div><button id="drop" type="button">drop A + B</button></header>
+      <section class="clients" aria-label="接続状態">
+        <article class="client-a"><h2>unipls A</h2><p>heartbeat + browser lifecycle dropdetector</p><strong id="status-a">接続待ち</strong></article>
+        <article class="client-b"><h2>unipls B</h2><p>heartbeat のみ</p><strong id="status-b">接続待ち</strong></article>
+      </section>
+      <p class="guide">タブを切り替えて戻ると、A が追加の lifecycle probe を送信します。drop ボタンは両方の接続を手動で drop させ、自動再接続します。</p>
+      <section aria-labelledby="log-title"><h2 id="log-title">イベントログ</h2><ol id="logs" role="log" aria-live="polite" aria-relevant="additions"></ol></section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
